@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horizon - 未来をデザインする</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #6c63ff;
+      --primary-dark: #5248d4;
+      --accent: #ff6584;
+      --dark: #1a1a2e;
+      --dark2: #16213e;
+      --text: #e0e0e0;
+      --text-muted: #9090b0;
+      --card-bg: rgba(255,255,255,0.05);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 6%;
+      background: rgba(26,26,46,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .nav-cta {
+      background: var(--primary);
+      color: #fff !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--primary-dark) !important; color: #fff !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 6% 4rem;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,99,255,0.25) 0%, transparent 70%),
+        var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,99,255,0.12), transparent 70%);
+      top: -100px; right: -150px;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.4);
+      color: var(--primary);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      max-width: 600px;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.85rem 2.2rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.85rem 2.2rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+
+    /* STATS */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      padding: 3rem 6%;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: var(--dark2);
+      flex-wrap: wrap;
+    }
+
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .stat-label { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.2rem; }
+
+    /* FEATURES */
+    .features {
+      padding: 6rem 6%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      text-align: center;
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 3.5rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 1.2rem;
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* PRICING */
+    .pricing {
+      padding: 6rem 6%;
+      background: var(--dark2);
+    }
+
+    .pricing-inner { max-width: 1000px; margin: 0 auto; }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .plan-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 1.2rem;
+      padding: 2.2rem;
+      position: relative;
+    }
+
+    .plan-card.featured {
+      border-color: var(--primary);
+      background: rgba(108,99,255,0.1);
+    }
+
+    .popular-tag {
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.3rem 1rem;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+    }
+
+    .plan-name { font-size: 1rem; font-weight: 600; color: var(--text-muted); }
+
+    .plan-price {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin: 0.6rem 0 0.2rem;
+    }
+    .plan-price span { font-size: 1rem; font-weight: 400; color: var(--text-muted); }
+
+    .plan-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+    .plan-features { list-style: none; margin-bottom: 2rem; }
+    .plan-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .plan-features li::before { content: '✓'; color: var(--primary); font-weight: 700; }
+
+    .plan-btn {
+      display: block;
+      text-align: center;
+      padding: 0.85rem;
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .plan-btn-outline {
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--text);
+    }
+    .plan-btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .plan-btn-filled {
+      background: var(--primary);
+      color: #fff;
+    }
+    .plan-btn-filled:hover { background: var(--primary-dark); }
+
+    /* CTA */
+    .cta-section {
+      padding: 6rem 6%;
+      text-align: center;
+      background:
+        radial-gradient(ellipse 70% 80% at 50% 100%, rgba(108,99,255,0.2) 0%, transparent 70%),
+        var(--dark);
+    }
+
+    .cta-section h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .cta-section p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark2);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2.5rem 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    footer a { color: var(--text-muted); text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .stats { gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Horizon</div>
+  <ul class="nav-links">
+    <li><a href="#features">機能</a></li>
+    <li><a href="#pricing">料金</a></li>
+    <li><a href="#contact">お問い合わせ</a></li>
+    <li><a href="#" class="nav-cta">無料で始める</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">✦ 2026年 新機能リリース</div>
+  <h1>アイデアを<br><span>現実に変える</span>プラットフォーム</h1>
+  <p class="hero-desc">
+    Horizon は、チームの生産性を最大化し、プロジェクトをより速く、
+    よりスマートに届けるための次世代コラボレーションツールです。
+  </p>
+  <div class="hero-actions">
+    <a href="#" class="btn-primary">無料で始める →</a>
+    <a href="#features" class="btn-outline">詳しく見る</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <div class="stat-number">12,000+</div>
+    <div class="stat-label">導入企業数</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">98%</div>
+    <div class="stat-label">顧客満足度</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">3.2倍</div>
+    <div class="stat-label">平均生産性向上</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">99.9%</div>
+    <div class="stat-label">稼働率</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <p class="section-label">Features</p>
+  <h2 class="section-title">必要なものがすべて揃っている</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>リアルタイム同期</h3>
+      <p>チーム全員が常に最新の状態を共有。遅延なしでシームレスに連携できます。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>エンタープライズ級セキュリティ</h3>
+      <p>エンドツーエンド暗号化と SOC2 準拠で、大切なデータを守ります。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>AI アシスタント</h3>
+      <p>タスクの自動整理、要約生成、次のアクションの提案をAIが自動で行います。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>高度な分析</h3>
+      <p>プロジェクトの進捗をリアルタイムで可視化し、ボトルネックを即座に特定。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔗</div>
+      <h3>200+ インテグレーション</h3>
+      <p>Slack、GitHub、Figma など、使い慣れたツールとすぐに連携できます。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌍</div>
+      <h3>多言語・多拠点対応</h3>
+      <p>グローバルチームでも安心。20言語対応でどこからでも快適に利用できます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <p class="section-label">Pricing</p>
+    <h2 class="section-title">シンプルな料金体系</h2>
+    <div class="pricing-grid">
+
+      <div class="plan-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">¥0<span>/月</span></div>
+        <div class="plan-desc">小規模チームや個人のお試しに</div>
+        <ul class="plan-features">
+          <li>メンバー最大5名</li>
+          <li>プロジェクト3つまで</li>
+          <li>基本的な分析機能</li>
+          <li>メールサポート</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-outline">無料で始める</a>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="popular-tag">人気 No.1</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">¥4,980<span>/月</span></div>
+        <div class="plan-desc">成長中のチームに最適</div>
+        <ul class="plan-features">
+          <li>メンバー無制限</li>
+          <li>プロジェクト無制限</li>
+          <li>高度な分析 &amp; レポート</li>
+          <li>AI アシスタント機能</li>
+          <li>優先サポート</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-filled">14日間無料試用</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">要相談<span></span></div>
+        <div class="plan-desc">大規模組織・カスタム要件に</div>
+        <ul class="plan-features">
+          <li>Pro の全機能</li>
+          <li>カスタム SLA</li>
+          <li>専任サクセスマネージャー</li>
+          <li>オンプレミス対応</li>
+        </ul>
+        <a href="#contact" class="plan-btn plan-btn-outline">お問い合わせ</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <h2>今日から<span style="color:var(--primary)">無料</span>で始めよう</h2>
+  <p>クレジットカード不要。いつでもキャンセル可能。</p>
+  <a href="#" class="btn-primary">アカウントを作成する →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 Horizon Inc. All rights reserved.</div>
+  <div style="display:flex; gap:1.5rem;">
+    <a href="#">プライバシーポリシー</a>
+    <a href="#">利用規約</a>
+    <a href="#">お問い合わせ</a>
+  </div>
+</footer>
+
+</body>
+</html>
